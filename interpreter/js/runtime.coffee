@@ -18,21 +18,21 @@ class Runtime
     arg2 = (nextOp >>> 0x10) & 0xff
     arg3 = (nextOp >>> 0x18) & 0xff
     functions = [
-      getMemory, setMemory, setRegister, copy, jump,
-      printChar, getChar,
-      unsignedMultiply, unsignedDivide, unsignedAdd, unsignedSubtract,
-      signedMultiply, signedDivide,
-      xorOp, andOp, orOp,
-      unsignedCompare, signedCompare,
-      jumpEqual, jumpGreater
+      @getMemory, @setMemory, @setRegister, @copy, @jump,
+      @printChar, @getChar,
+      @unsignedMultiply, @unsignedDivide, @unsignedAdd, @unsignedSubtract,
+      @signedMultiply, @signedDivide,
+      @xorOp, @andOp, @orOp,
+      @unsignedCompare, @signedCompare,
+      @jumpEqual, @jumpGreater
     ]
     
     if opCode > 0x13
-      throw new Error 'invalid opcode: ' + opcode
+      throw new Error 'invalid opcode: ' + opCode
     if opCode is 6 and @readBuffer.length is 0
       return false
     
-    functions[opCode] arg1, arg2, arg3
+    functions[opCode].call this, arg1, arg2, arg3
     
     if not (opCode in [4, 0x12, 0x13])
       ++@ip
@@ -56,7 +56,7 @@ class Runtime
   setRegister: (arg1, arg2, arg3) ->
     # make sure there's room for the next instruction
     nextCall = @readMem @ip + 1
-    if (nextCall & 0xffff) isnt (2 & (arg1 << 8))
+    if (nextCall & 0xffff) isnt (2 | (arg1 << 8))
       throw new Error 'invalid instruction following sreg: ' + nextCall
     fullValue = arg2 | (arg3 << 8) | ((nextCall & 0xffff0000) >>> 0)
     @writeReg arg1, fullValue
@@ -118,32 +118,32 @@ class Runtime
     @writeReg arg1, @readReg(arg2) | @readReg(arg3)
   
   unsignedCompare: (arg1, arg2, arg3) ->
-    [val1, val2] = @readRegs arg2, arg3
+    [val1, val2] = @readRegs arg1, arg2
     if val1 > val2
-      compareStatus = 1
+      @compareStatus = 1
     else if val1 is val2
-      compareStatus = 0
+      @compareStatus = 0
     else
-      compareStatus = -1
+      @compareStatus = -1
   
   signedCompare: (arg1, arg2, arg3) ->
-    val1 = @readReg(arg2) >> 0
-    val2 = @readReg(arg3) >> 0
+    val1 = @readReg(arg1) >> 0
+    val2 = @readReg(arg2) >> 0
     if val1 > val2
-      compareStatus = 1
+      @compareStatus = 1
     else if val1 is val2
-      compareStatus = 0
+      @compareStatus = 0
     else
-      compareStatus = -1
+      @compareStatus = -1
   
   jumpEqual: (arg1, arg2, arg3) ->
-    if compareStatus is 0
+    if @compareStatus is 0
       @ip = @readReg arg1
     else
       ++@ip
   
   jumpGreater: (arg1, arg2, arg3) ->
-    if compareStatus is 1
+    if @compareStatus is 1
       @ip = @readReg arg1
     else
       ++@ip
@@ -169,3 +169,9 @@ class Runtime
     if idx >= @maxMem or idx < 0
       throw new RangeError 'memory limit exceeded: ' + idx
     @memory[idx] = value
+
+if module?
+  module.exports = Runtime
+else if window?
+  window.LangBlue ?= {}
+  window.LangBlue.Runtime = Runtime

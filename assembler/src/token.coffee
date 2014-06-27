@@ -1,6 +1,6 @@
 class Token
   @instructions: [['jmp', 'pchar', 'gchar', 'je', 'jg'],
-    ['gmem', 'smem', 'cpy', 'cmp', 'scmp'],
+    ['gmem', 'smem', 'cpy', 'ucmp', 'scmp'],
     ['umul', 'udiv', 'uadd', 'usub', 'smul', 'sdiv', 'xor', 'and', 'or']]
   
   constructor: (rawLine, @lineNumber, @offset) ->
@@ -32,7 +32,7 @@ class Token
     return true
   
   _parseInstruction: ->
-    gotResult = (match, idx) ->
+    gotResult = (match, idx) =>
       name = match[1].toLowerCase()
       return false if not (name in Token.instructions[idx])
       @type = 'instruction'
@@ -43,11 +43,11 @@ class Token
     match = new RegExp("^#{singleMatch}$").exec @line
     return gotResult match, 0 if match?
     
-    doubleMatch = "#{singleMatch}\s*,\s*[rR]([0-9]+)"
+    doubleMatch = "#{singleMatch}\\s*,\\s*[rR]([0-9]+)"
     match = new RegExp("^#{doubleMatch}$").exec @line
     return gotResult match, 1 if match?
     
-    tripleMatch = "#{doubleMatch}\s*,\s*[rR]([0-9]+)"
+    tripleMatch = "#{doubleMatch}\\s*,\\s*[rR]([0-9]+)"
     match = new RegExp("^#{tripleMatch}$").exec @line
     return gotResult match, 2 if match?
     
@@ -67,6 +67,7 @@ class Token
         throw new Error "line #{@lineNumber}: invalid constant \"#{value}\""
       @type = 'store-number'
       @arguments = [register, parsed]
+    return true
 
   _parseNumber: ->
     match = /^#([xXbB0-9]+)$/.exec @line

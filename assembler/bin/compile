@@ -1,0 +1,20 @@
+#!/usr/bin/env coffee
+
+File = require '../src/file'
+Assembler = require '../src/assembler'
+fs = require 'fs'
+
+console.log process.argv
+
+if process.argv.length isnt 3
+  console.error 'Usage: compile <file>'
+  process.exit 1
+
+fs.readFile process.argv[2], (err, data) ->
+  if err?
+    console.error err
+    process.exit 1
+  parsed = new File data.toString()
+  assembler = new Assembler parsed
+  console.log JSON.stringify assembler.generateObject()
+  process.exit 0

@@ -31,7 +31,7 @@ class Assembler
           relocations: info.relocations
       else
         symbols.push
-          name: ame
+          name: name
           exists: info.location?
           address: info.location ? 0
           relocations: info.relocations
@@ -39,7 +39,7 @@ class Assembler
     # generate code
     code = []
     for token in @file.tokens
-      code.push @_encodeToken token
+      code.push @_encodeToken(token)...
 
     return code: code, symbols: symbols
   
@@ -75,4 +75,9 @@ class Assembler
       continue if i is 0
       value |= x << (8 * i)
     return [value >>> 0]
-  
+
+if module?
+  module.exports = Assembler
+else if window?
+  window.LangBlue ?= {}
+  window.LangBlue.Assembler = Assembler

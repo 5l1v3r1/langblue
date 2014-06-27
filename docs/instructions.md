@@ -50,14 +50,7 @@ For arguments `(a, b, c)` and operator `x`, read this as `a = b x c`
 
 ## Comparisons
 
- * `cmp` - Unsigned compare (reg, reg)
+ * `ucmp` - Unsigned compare (reg, reg)
  * `scmp` - Signed compare (reg, reg)
  * `je` - Jump if equal (reg)
  * `jg` - Jump if first operand is greater than second operand (reg)
-
-## Utilities
-
-For both of these instructions, the first operand is a number and the second is a destination memory address. The output string is NULL-terminated.
-
- * `itos` - Convert signed integer to string (reg, reg)
- * `utos` - Convert unsigned integer to string (reg, reg)

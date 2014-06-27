@@ -1,9 +1,9 @@
 .restart
 
 sreg r0, 1
-sreg r1, data
+sreg r1, .data
 sreg r2, 0
-sreg r3, start
+sreg r3, .start
 
 .start
 

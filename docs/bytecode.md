@@ -66,7 +66,7 @@ Here are the raw numerical values associated with each instruction.
 |`xor`  |`0d`    |
 |`and`  |`0e`    |
 |`or`   |`0f`    |
-|`cmp`  |`10`    |
+|`ucmp` |`10`    |
 |`scmp` |`11`    |
 |`je`   |`12`    |
 |`jg`   |`13`    |

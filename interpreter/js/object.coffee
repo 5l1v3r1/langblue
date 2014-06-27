@@ -74,4 +74,9 @@ class CodeObject
         return false if 'number' isnt typeof reloc
         return false if reloc + 2 > @info.code.length
     return true
-  
+
+if module?
+  module.exports = CodeObject
+else if window?
+  window.LangBlue ?= {}
+  window.LangBlue.CodeObject = CodeObject

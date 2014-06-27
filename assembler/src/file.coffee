@@ -7,12 +7,15 @@ throw new Error 'missing Token class' if not Token?
 
 class File
   constructor: (contents) ->
-    lines = contents.split '\n'
     @tokens = []
+    lines = contents.split '\n'
+    offset = 0
     for line, i in lines
       uncommented = line.replace(/#.*$/, '').trim()
       continue if uncommented.length is 0
-      @tokens.push new Token uncommented, i
+      token = new Token uncommented, i, offset
+      @tokens.push token
+      offset += token.getSize()
 
 if module?
   module.exports = File

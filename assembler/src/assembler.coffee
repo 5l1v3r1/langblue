@@ -55,7 +55,7 @@ class Assembler
   
   _encodeStore: (token) ->
     if token.type is 'store-number'
-      value = token.value
+      value = token.arguments[1]
     else
       info = @symbols[token.arguments[1]]
       if not info?

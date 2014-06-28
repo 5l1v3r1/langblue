@@ -55,7 +55,7 @@ class CodeObject
   _relocateAll: ->
     for symbol in @getSymbols()
       for relocation in symbol.relocations
-        @_relocate symbol.address, relocation
+        @_relocate relocation, symbol.address
   
   _isValid: ->
     return false if not (@info.code instanceof Array)

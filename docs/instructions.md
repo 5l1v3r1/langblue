@@ -54,3 +54,7 @@ For arguments `(a, b, c)` and operator `x`, read this as `a = b x c`
  * `scmp` - Signed compare (reg, reg)
  * `je` - Jump if equal (reg)
  * `jg` - Jump if first operand is greater than second operand (reg)
+
+## OS
+
+ * `exit` - Exit with a status code (reg)

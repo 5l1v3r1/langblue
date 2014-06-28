@@ -70,3 +70,4 @@ Here are the raw numerical values associated with each instruction.
 |`scmp` |`11`    |
 |`je`   |`12`    |
 |`jg`   |`13`    |
+|`exit` |`14`    |

@@ -69,7 +69,7 @@ class Assembler
   @_encodeInstruction: (token) ->
     instructions = ['gmem', 'smem', 'sreg', 'cpy', 'jmp', 'pchar', 'gchar',
       'umul', 'udiv', 'uadd', 'usub', 'smul', 'sdiv', 'xor', 'and', 'or',
-      'ucmp', 'scmp', 'je', 'jg']
+      'ucmp', 'scmp', 'je', 'jg', 'exit']
     value = instructions.indexOf token.arguments[0]
     for x, i in token.arguments
       continue if i is 0

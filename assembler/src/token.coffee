@@ -1,5 +1,5 @@
 class Token
-  @instructions: [['jmp', 'pchar', 'gchar', 'je', 'jg'],
+  @instructions: [['jmp', 'pchar', 'gchar', 'je', 'jg', 'exit'],
     ['gmem', 'smem', 'cpy', 'ucmp', 'scmp'],
     ['umul', 'udiv', 'uadd', 'usub', 'smul', 'sdiv', 'xor', 'and', 'or']]
   

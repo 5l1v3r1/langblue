@@ -51,6 +51,7 @@ class CodeObject
       exists: symbol.exists
       address: symbol.address + offset
     newSym.relocations = (x + offset for x in symbol.relocations)
+    @getSymbols().push newSym
   
   _relocateAll: ->
     for symbol in @getSymbols()

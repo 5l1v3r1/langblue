@@ -1,0 +1,25 @@
+#!/usr/bin/env coffee
+#
+# Join to object files
+#
+
+CodeObject = require '../src/code-object'
+fs = require 'fs'
+
+if process.argv.length isnt 4
+  console.error 'Usage: join <file1.json> <file2.json>'
+  process.exit 1
+
+fs.readFile process.argv[2], (err, data1) ->
+  if err?
+    console.error err
+    process.exit 1
+  object1 = new CodeObject JSON.parse data1
+  fs.readFile process.argv[3], (err, data2) ->
+    if err?
+      console.error err
+      process.exit 1
+    object2 = new CodeObject JSON.parse data2
+    str = JSON.stringify object1.concat(object2).info
+    console.log str
+    process.exit 0

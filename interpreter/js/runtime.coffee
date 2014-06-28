@@ -12,6 +12,7 @@ class Runtime
         throw new TypeError 'invalid memory element type'
   
   runNext: ->
+    console.log 'running at ' + @ip
     nextOp = @readMem @ip
     opCode = nextOp & 0xff
     arg1 = (nextOp >>> 8) & 0xff

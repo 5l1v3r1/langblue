@@ -6,7 +6,7 @@ class CodeObject
     result = @copy()
     result.info.code = result.info.code.concat codeObject.getCode()
     for symbol in codeObject.getSymbols()
-      result._mergeSymbol getCode().length, symbol
+      result._mergeSymbol @getCode().length, symbol
     result._relocateAll()
     return result
   
@@ -22,7 +22,7 @@ class CodeObject
         address: symbol.address
         exists: symbol.exists
         relocations: symbol.relocations.slice 0
-      code.symbols.push symbolCopy
+      resultInfo.symbols.push symbolCopy
     return new CodeObject resultInfo
   
   _relocate: (codeAddr, address) ->
@@ -35,7 +35,7 @@ class CodeObject
     code[codeAddr + 1] |= (address >>> 0x10) << 0x10
   
   _mergeSymbol: (offset, symbol) ->
-    for localSym in getSymbols()
+    for localSym in @getSymbols()
       continue if not localSym.name?
       continue if symbol.name isnt localSym.name
       if localSym.exists and symbol.exists
@@ -53,7 +53,7 @@ class CodeObject
     newSym.relocations = (x + offset for x in symbol.relocations)
   
   _relocateAll: ->
-    for symbol in getSymbols()
+    for symbol in @getSymbols()
       for relocation in symbol.relocations
         @_relocate symbol.address, relocation
   

@@ -1,13 +1,14 @@
 #!/usr/bin/env coffee
+#
+# Assemble a source file
+#
 
 File = require '../src/file'
 Assembler = require '../src/assembler'
 fs = require 'fs'
 
-console.log process.argv
-
 if process.argv.length isnt 3
-  console.error 'Usage: compile <file>'
+  console.error 'Usage: assemble <file>'
   process.exit 1
 
 fs.readFile process.argv[2], (err, data) ->

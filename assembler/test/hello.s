@@ -9,8 +9,8 @@ sreg r0, .done
 sreg r1, .spin
 sreg r2, .print
 jmp r2
-sreg r2, .spin
 .spin
+sreg r2, .spin
 jmp r2
 
 .helloWorld

@@ -11,7 +11,7 @@ class Runtime
     opcode = instruction & 0xff
     args = ((instruction >>> (i * 8)) & 0xff for i in [1..3])
     
-    if opcode > 0x13
+    if opcode > 0x14
       throw new Error 'invalid opcode: ' + opCode
     if opcode is 6 and @readBuffer.length is 0
       return false

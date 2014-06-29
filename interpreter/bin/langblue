@@ -1,5 +1,7 @@
+#!/usr/bin/env coffee
+
 fs = require 'fs'
-Executor = require './executor'
+Executor = require '../src/executor'
 
 if process.argv.length isnt 3
   console.log 'Usage: coffee main.coffee <raw file>'

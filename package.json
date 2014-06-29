@@ -1,0 +1,23 @@
+{
+  "name": "langblue",
+  "description": "a simple bytecode, assembler, and runtime",
+  "author": "Alex Nichol <unixpickle@gmail.com>",
+  "repository": "https://github.com/unixpickle/LangBlue.git",
+  "dependencies": {
+    "coffee-script": "1.7.x"
+  },
+  "version": "0.0.1",
+  "licenses": [{
+    "type": "GPL",
+    "url": "http://www.gnu.org/licenses/gpl.html"
+  }],
+  "engines": {
+    "node": "0.10.x"
+  },
+  "bin": {
+    "langblue": "./interpreter/bin/langblue",
+    "langblue-as": "./assembler/bin/assemble",
+    "langblue-join": "./assembler/bin/join",
+    "langblue-juice": "./assembler/bin/juice"
+  }
+}

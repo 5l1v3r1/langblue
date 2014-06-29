@@ -33,7 +33,11 @@ class Executor
     process.stdin.removeListener @dataCallback
   
   _runNext: ->
-    result = @runtime.next()
+    try
+      result = @runtime.next()
+    catch exc
+      console.error 'caught exception at offset ' + @runtime.state.ip
+      throw exc
     if result
       setImmediate => @_runNext()
     else

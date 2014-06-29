@@ -1,4 +1,4 @@
-parseConstant: (number) ->
+parseConstant = (number) ->
   if (match = /^0x[0-9a-fA-F]+$/.exec number)?
     return parseInt match[1], 16
   else if (match = /^0b[01]+$/.exec number)?
@@ -86,7 +86,7 @@ class StoreToken extends Token
   constructor: (l, r, o, @register, @value) -> super l, r, o
   
   encode: ->
-    if @isSymbolic()
+    if @isSymbolicStore()
       return [@_mask(), @_mask()]
     else
       val1 = (@value & 0xffff) << 0x10

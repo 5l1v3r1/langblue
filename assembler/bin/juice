@@ -3,7 +3,7 @@
 # Convert object file to executable
 #
 
-CodeObject = require '../src/code-object'
+ObjectFile = require '../src/object-file'
 fs = require 'fs'
 
 if process.argv.length isnt 4
@@ -14,9 +14,9 @@ fs.readFile process.argv[2], (err, data1) ->
   if err?
     console.error err
     process.exit 1
-  object1 = new CodeObject JSON.parse data1
-  data = new Buffer object1.info.code.length * 4
-  for num, i in object1.info.code
+  obj = ObjectFile.fromJSON JSON.parse data1
+  data = new Buffer obj.code.length * 4
+  for num, i in obj.code
     data.writeUInt32LE num >>> 0, i * 4
   fs.writeFile process.argv[3], data, (err) ->
     if err?

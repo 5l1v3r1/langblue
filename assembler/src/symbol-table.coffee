@@ -1,7 +1,7 @@
 class Symbol
   constructor: (@relocations, @offset) ->
   
-  offset: (count) ->
+  move: (count) ->
     @offset += count if @offset?
     for i in [0...@relocations.length] by 1
       @relocations[i] += count
@@ -18,17 +18,17 @@ class SymbolTable
     @symbols[token.name].offset = token.offset
   
   handleSymbolicStore: (token) ->
-    @symbols[token.name] ?= new Symbol [], null
-    @symbols[token.name].relocations.push token
+    @symbols[token.value] ?= new Symbol [], null
+    @symbols[token.value].relocations.push token.offset
   
   offset: (count) ->
     for name, obj of @symbols
-      obj.offset count
+      obj.move count
     for obj in @hidden
-      obj.offset count
+      obj.move count
   
   append: (table) ->
-    for name, symbol in table.symbols
+    for name, symbol of table.symbols
       if @symbols[name]?
         thisSymbol = @symbols[name]
         if thisSymbol.offset? and symbol.offset?
@@ -48,7 +48,7 @@ class SymbolTable
       if hidden and not symbol.offset?
         throw new Error 'hidden symbol not defined: ' + name
       result.push
-        name: name
+        name: if hidden then null else name
         address: symbol.offset ? 0
         exists: symbol.offset?
         relocations: symbol.relocations

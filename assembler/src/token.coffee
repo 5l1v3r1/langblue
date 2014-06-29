@@ -1,9 +1,9 @@
 parseConstant = (number) ->
-  if (match = /^0x[0-9a-fA-F]+$/.exec number)?
+  if (match = /^0x([0-9a-fA-F]+)$/.exec number)?
     return parseInt match[1], 16
-  else if (match = /^0b[01]+$/.exec number)?
+  else if (match = /^0b([01]+)$/.exec number)?
     return parseInt match[1], 2
-  else if (match = /^0[0-7]+$/.exec number)?
+  else if (match = /^0([0-7]+)$/.exec number)?
     return parseInt match[1], 8
   else
     return parseInt number
@@ -118,7 +118,7 @@ class NumberToken extends Token
   encode: -> [@value]
   
   @decode: (line, raw, offset) ->
-    match = /^#([xXbB0-9]+)$/.exec raw
+    match = /^#([xXbB0-9a-fA-F]+)$/.exec raw
     return null if not match?
     parsed = parseConstant match[1]
     if isNaN parsed

@@ -1,25 +1,34 @@
 #!/usr/bin/env coffee
 #
-# Join to object files
+# Join two object files
 #
 
-CodeObject = require '../src/code-object'
+SymbolTable = require '../src/symbol-table'
+Joiner = require '../src/joiner'
 fs = require 'fs'
 
 if process.argv.length isnt 4
   console.error 'Usage: join <file1.json> <file2.json>'
   process.exit 1
 
+joinObjects = (object1, object2) ->
+  if 'object' isnt typeof object1
+    throw new TypeError 'invalid type for first file root'
+  if 'object' isnt typeof object2
+    throw new TypeError 'invalid type for second file root'
+  joiner = new Joiner object1.code, SymbolTable.decode object1.symbols
+  joiner.append object2.code, SymbolTable.decode object2.symbols
+  return joiner.encode()
+
 fs.readFile process.argv[2], (err, data1) ->
   if err?
     console.error err
     process.exit 1
-  object1 = new CodeObject JSON.parse data1
+  parsed1 = JSON.parse data1
   fs.readFile process.argv[3], (err, data2) ->
     if err?
       console.error err
       process.exit 1
-    object2 = new CodeObject JSON.parse data2
-    str = JSON.stringify object1.concat(object2).info
-    console.log str
+    parsed2 = JSON.parse data2
+    console.log JSON.stringify joinObjects parsed1, parsed2
     process.exit 0

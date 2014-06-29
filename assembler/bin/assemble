@@ -16,6 +16,5 @@ fs.readFile process.argv[2], (err, data) ->
     console.error err
     process.exit 1
   parsed = new File data.toString()
-  assembler = new Assembler parsed
-  console.log JSON.stringify assembler.generateObject()
+  console.log JSON.stringify new Assembler(parsed).encode()
   process.exit 0

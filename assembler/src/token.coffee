@@ -128,8 +128,6 @@ class NumberToken extends Token
 class SymbolToken extends Token
   constructor: (l, r, o, @name) -> super l, r, o
   
-  shouldHide: -> @name[0] is '_'
-  
   isSymbol: -> true
   
   @decode: (line, raw, offset) ->

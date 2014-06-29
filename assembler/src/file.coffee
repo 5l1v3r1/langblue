@@ -13,9 +13,9 @@ class File
     for line, i in lines
       uncommented = line.replace(/#.*$/, '').trim()
       continue if uncommented.length is 0
-      token = new Token uncommented, i, offset
+      token = Token.parse i, uncommented, offset
       @tokens.push token
-      offset += token.getSize()
+      offset += token.encode().length
 
 if module?
   module.exports = File

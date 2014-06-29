@@ -17,6 +17,7 @@ jmp r2
 "Hello, world!"
 #0xa
 #0
+"This should never be seen!"
 
 .done
 "Done execution. TODO: make an exit call"

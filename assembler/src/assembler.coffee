@@ -16,7 +16,7 @@ class Assembler extends Relocator
     super()
     lines = script.split '\n'
     for line, i in lines
-      uncommented = line.replace(/#.*$/, '').trim()
+      uncommented = line.replace(/;.*$/, '').trim()
       continue if uncommented.length is 0
       token = Token.parse i, uncommented, @code.length
       @code.push x for x in token.encode()

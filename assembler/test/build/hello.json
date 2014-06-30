@@ -1,1 +1,0 @@
-{"code":[655362,2,459010,258,514,514,516,2,2,20,72,101,108,108,111,44,32,119,111,114,108,100,33,10,0],"symbols":[{"name":"main","address":0,"exists":true,"relocations":[]},{"name":"helloWorld","address":10,"exists":true,"relocations":[0]},{"name":"endProgram","address":7,"exists":true,"relocations":[2]},{"name":"print","address":0,"exists":false,"relocations":[4]}]}

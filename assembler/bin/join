@@ -7,26 +7,18 @@ ObjectFile = require '../src/object-file'
 Joiner = require '../src/joiner'
 fs = require 'fs'
 
-if process.argv.length isnt 4
-  console.error 'Usage: join <file1.json> <file2.json>'
+if process.argv.length < 3
+  console.error 'Usage: join <file1.json> ...'
   process.exit 1
 
-joinObjects = (info1, info2) ->
-  joiner = new Joiner()
-  joiner.decodeJSON info1
-  joiner.append ObjectFile.fromJSON info2
-  return joiner.encode()
-
-fs.readFile process.argv[2], (err, data) ->
-  if err?
-    console.error err
-    process.exit 1
-  info1 = JSON.parse data
-  fs.readFile process.argv[3], (err, data) ->
-    if err?
-      console.error err
-      process.exit 1
-    info2 = JSON.parse data
-    joined = joinObjects info1, info2
-    console.log JSON.stringify joined
+joinObjects = (joiner, files) ->
+  if files.length is 0
+    console.log JSON.stringify joiner.encode()
     process.exit 0
+  fs.readFile files[0], (err, data) ->
+    throw new Error 'unable to read: ' + files[0] if err?
+    joiner.append ObjectFile.fromJSON JSON.parse data
+    joinObjects joiner, files[1..]
+
+joiner = new Joiner()
+joinObjects joiner, process.argv[2..]
